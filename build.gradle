@@ -1,0 +1,91 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.0.RELEASE'
+        postgresVersion = '9.4.1209'
+        swaggerVersion = '2.5.0'
+        hikariVersion = '2.3.10'
+        thymeleafVersion = '3.0.0.RELEASE'
+        thymeleafDialectVersion = '2.0.1'
+        mybatisStarterVersion = '1.1.1'
+        mybatisPaginatorVersion = '1.2.17'
+        guavaVersion = '19.0'
+        mapstructVersion = '1.1.0.CR1'
+        okhttpVersion = '3.4.1'
+        mysqlVersion= '5.1.24'
+    }
+    repositories {
+        maven {
+            url "http://maven.aliyun.com/nexus/content/groups/public/"
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        //classpath("org.postgresql:postgresql:${postgresVersion}")
+        classpath("mysql:mysql-connector-java:${mysqlVersion}")
+    }
+}
+
+group 'survey-monkey'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = group
+    version = version
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven {
+        url "http://maven.aliyun.com/nexus/content/groups/public/"
+    }
+    mavenCentral()
+}
+
+bootRun {
+    systemProperty 'logback_level', 'INFO'
+
+}
+
+configurations {
+    compile.exclude module: "tomcat-jdbc"
+    compile.exclude module: "tomcat-juli"
+
+    compile.exclude module: 'org.mapstruct:mapstruct'
+}
+
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile "org.thymeleaf:thymeleaf:${thymeleafVersion}"
+    compile "org.thymeleaf:thymeleaf-spring4:${thymeleafVersion}"
+    compile "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:${thymeleafDialectVersion}"
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-devtools'
+    compile "com.google.guava:guava:${guavaVersion}"
+    compile "io.springfox:springfox-swagger2:${swaggerVersion}"
+    compile "io.springfox:springfox-swagger-ui:${swaggerVersion}"
+    compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisStarterVersion}"
+    compile "com.github.miemiedev:mybatis-paginator:${mybatisPaginatorVersion}"
+    compile "com.zaxxer:HikariCP:${hikariVersion}"
+    compile "org.postgresql:postgresql:${postgresVersion}"
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    compile "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+    compile "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
+    compile "mysql:mysql-connector-java:${mysqlVersion}"
+
+    // apt "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.flywaydb:flyway-core'
+    testCompile 'org.hsqldb:hsqldb'
+    testCompile 'junit:junit'
+}
